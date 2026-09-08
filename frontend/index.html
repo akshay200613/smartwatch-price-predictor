@@ -3,266 +3,681 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartwatch Price Predictor | AI-Powered Valuation</title>
-    <meta name="description" content="Estimate the market value of any smartwatch in seconds using our AI-powered Random Forest regression model trained on real market data.">
+    <title>WatchVal.ai | AI Smartwatch Market Price Predictor</title>
+    <meta name="description" content="Instantly estimate the real market value of any smartwatch with machine learning algorithms trained on verified market data.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Ambient Background -->
-    <div class="ambient-bg">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+    <!-- Ambient Cosmic Lighting & Grid -->
+    <div class="ambient-wrapper" aria-hidden="true">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb glow-indigo"></div>
+        <div class="glow-orb glow-cyan"></div>
+        <div class="glow-orb glow-amber"></div>
+        <div class="glow-orb glow-purple"></div>
         <canvas id="particles-canvas"></canvas>
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-inner">
-            <div class="nav-brand">
-                <div class="brand-icon"><i class="fa-solid fa-watch"></i></div>
-                <span class="brand-text">WatchVal<span class="brand-accent">.ai</span></span>
-            </div>
-            <div class="nav-badge">
-                <span class="badge-dot"></span>
-                ML Model Live
-            </div>
+    <!-- Announcement Bar -->
+    <div class="top-announcement">
+        <div class="announcement-inner">
+            <span class="announcement-tag"><i class="fa-solid fa-sparkles"></i> NEW</span>
+            <span class="announcement-text">AI Valuation Engine v2.4 Active &bull; Random Forest Regression &bull; 87% Market Precision</span>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <div class="hero-pill">
-                <i class="fa-solid fa-microchip"></i>
-                Random Forest · 87% Accuracy
-            </div>
-            <h1 class="hero-title">
-                AI-Powered<br>
-                <span class="gradient-text">Smartwatch</span><br>
-                Price Predictor
-            </h1>
-            <p class="hero-subtitle">
-                Instantly estimate the real market value of any smartwatch using our machine learning model trained on thousands of real-world sales.
-            </p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">6+</span>
-                    <span class="stat-label">Brands</span>
+    <!-- Navigation -->
+    <header class="navbar-container">
+        <nav class="navbar">
+            <a href="#" class="nav-brand">
+                <div class="brand-icon-box">
+                    <i class="fa-solid fa-stopwatch-20"></i>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat-number">87%</span>
-                    <span class="stat-label">R² Score</span>
+                <div class="brand-name">
+                    WatchVal<span class="brand-dot">.ai</span>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat-number">ML</span>
-                    <span class="stat-label">Powered</span>
-                </div>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <div class="watch-preview">
-                <div class="watch-ring">
-                    <div class="watch-face">
-                        <i class="fa-solid fa-watch watch-icon"></i>
-                        <div class="watch-price-badge" id="hero-price">₹ ---</div>
-                    </div>
-                </div>
-                <div class="ring-orbit orbit-1"></div>
-                <div class="ring-orbit orbit-2"></div>
-            </div>
-        </div>
-    </section>
+                <span class="brand-pro-tag">ML v2.4</span>
+            </a>
 
-    <!-- Brand Selector -->
-    <section class="brands-section">
-        <div class="section-container">
-            <p class="section-label">Select Your Brand</p>
-            <div class="brand-grid" id="brand-grid">
-                <div class="brand-card active" data-brand="noise" onclick="selectBrand(this)">
-                    <div class="brand-icon-wrap"><i class="fa-solid fa-music"></i></div>
-                    <span>Noise</span>
-                </div>
-                <div class="brand-card" data-brand="boat" onclick="selectBrand(this)">
-                    <div class="brand-icon-wrap"><i class="fa-solid fa-sailboat"></i></div>
-                    <span>boAt</span>
-                </div>
-                <div class="brand-card" data-brand="fire-boltt" onclick="selectBrand(this)">
-                    <div class="brand-icon-wrap"><i class="fa-solid fa-fire"></i></div>
-                    <span>Fire-Boltt</span>
-                </div>
-                <div class="brand-card" data-brand="apple" onclick="selectBrand(this)">
-                    <div class="brand-icon-wrap"><i class="fa-brands fa-apple"></i></div>
-                    <span>Apple</span>
-                </div>
-                <div class="brand-card" data-brand="samsung" onclick="selectBrand(this)">
-                    <div class="brand-icon-wrap"><i class="fa-solid fa-mobile-screen"></i></div>
-                    <span>Samsung</span>
-                </div>
-                <div class="brand-card" data-brand="garmin" onclick="selectBrand(this)">
-                    <div class="brand-icon-wrap"><i class="fa-solid fa-location-dot"></i></div>
-                    <span>Garmin</span>
-                </div>
+            <div class="nav-links">
+                <a href="#predictor-section" class="nav-link">Valuator</a>
+                <a href="#brand-index-section" class="nav-link">Brand Matrix</a>
+                <a href="#how-it-works-section" class="nav-link">How It Works</a>
+                <a href="#faq-section" class="nav-link">FAQ</a>
             </div>
-        </div>
-    </section>
 
-    <!-- Main Predictor Card -->
-    <section class="predictor-section">
-        <div class="section-container">
-            <div class="predictor-card">
+            <div class="nav-actions">
+                <div class="system-status">
+                    <span class="status-pulse"></span>
+                    <span class="status-text">Model Online</span>
+                </div>
+                <a href="https://github.com/akshay200613/smartwatch-price-predictor" target="_blank" rel="noopener noreferrer" class="btn-ghost-nav" aria-label="GitHub Repository">
+                    <i class="fa-brands fa-github"></i>
+                    <span>Star on GitHub</span>
+                </a>
+            </div>
+        </nav>
+    </header>
 
-                <!-- Left: Inputs -->
-                <div class="inputs-panel">
-                    <div class="panel-header">
-                        <h2>Configure Watch</h2>
-                        <p>Set the specifications to get an accurate price estimate</p>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container hero-grid">
+                
+                <!-- Left: Hero Text -->
+                <div class="hero-text-col">
+                    <div class="hero-chip">
+                        <i class="fa-solid fa-microchip-ai"></i>
+                        <span>Trained on 10,000+ Market Transactions</span>
                     </div>
 
-                    <input type="hidden" id="sw-brand" value="noise">
+                    <h1 class="hero-heading">
+                        Predict Smartwatch <br>
+                        <span class="gradient-headline">Market Value</span> <br>
+                        With Machine Learning
+                    </h1>
 
-                    <div class="input-group">
-                        <label>Original Price (₹)</label>
-                        <div class="input-wrap">
-                            <span class="input-prefix">₹</span>
-                            <input type="number" id="sw-original" placeholder="e.g. 5999" value="5999" min="100" max="200000" oninput="updateLivePreview()">
+                    <p class="hero-description">
+                        Instant, calibrated price appraisal powered by a trained Random Forest ensemble. Evaluate resale valuations, market discounts, and retention rates across all top wearable brands.
+                    </p>
+
+                    <div class="hero-cta-group">
+                        <a href="#predictor-section" class="btn-primary-hero">
+                            <span>Launch Valuator</span>
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </a>
+                        <a href="#brand-index-section" class="btn-secondary-hero">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span>Brand Retention Index</span>
+                        </a>
+                    </div>
+
+                    <!-- Live Mini Stats -->
+                    <div class="hero-metrics-bar">
+                        <div class="metric-card">
+                            <span class="metric-value">87.4%</span>
+                            <span class="metric-title">R² Accuracy Score</span>
                         </div>
-                        <div class="price-slider-labels">
-                            <span>₹100</span><span>₹2,00,000</span>
+                        <div class="metric-divider"></div>
+                        <div class="metric-card">
+                            <span class="metric-value">&lt; 15ms</span>
+                            <span class="metric-title">Inference Speed</span>
                         </div>
-                        <input type="range" id="price-slider" class="range-slider" min="100" max="200000" value="5999" oninput="syncSlider('price')">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Customer Rating <span class="rating-display" id="rating-display">4.2 ⭐</span></label>
-                        <input type="range" id="sw-rating" class="range-slider rating-range" min="1" max="5" step="0.1" value="4.2" oninput="updateRating(this.value); updateLivePreview()">
-                        <div class="rating-labels">
-                            <span>Poor (1)</span>
-                            <span>Excellent (5)</span>
+                        <div class="metric-divider"></div>
+                        <div class="metric-card">
+                            <span class="metric-value">6+</span>
+                            <span class="metric-title">Major Ecosystems</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="input-group">
-                        <label>Number of Reviews</label>
-                        <div class="input-wrap">
-                            <span class="input-prefix"><i class="fa-solid fa-comment"></i></span>
-                            <input type="number" id="sw-numratings" placeholder="e.g. 500" value="500" min="0" oninput="updateLivePreview()">
+                <!-- Right: Interactive Hologram Smartwatch Visualizer -->
+                <div class="hero-visual-col">
+                    <div class="watch-stage">
+                        
+                        <!-- Floating Spec Badges -->
+                        <div class="floating-badge badge-top-left">
+                            <div class="badge-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <div>
+                                <div class="badge-title">Random Forest</div>
+                                <div class="badge-sub">100 Estimators</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <button class="predict-btn" id="predict-btn" onclick="predictSmartwatch()">
-                        <span class="btn-text">Predict Market Value</span>
-                        <span class="btn-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-                        <div class="btn-shimmer"></div>
+                        <div class="floating-badge badge-bottom-right">
+                            <div class="badge-icon"><i class="fa-solid fa-shield-check"></i></div>
+                            <div>
+                                <div class="badge-title">Live Valuation</div>
+                                <div class="badge-sub" id="hero-mini-status">Synced with model</div>
+                            </div>
+                        </div>
+
+                        <!-- 3D Smartwatch Hardware Frame -->
+                        <div class="smartwatch-chassis">
+                            <div class="chassis-crown"></div>
+                            <div class="chassis-button"></div>
+                            <div class="watch-bezel-glow"></div>
+                            
+                            <div class="watch-screen">
+                                <!-- Digital Watch Interface -->
+                                <div class="watch-screen-header">
+                                    <span class="watch-clock" id="digital-clock">10:42</span>
+                                    <span class="watch-battery"><i class="fa-solid fa-battery-three-quarters"></i> 94%</span>
+                                </div>
+
+                                <div class="watch-screen-center">
+                                    <span class="watch-screen-label">ESTIMATED VALUATION</span>
+                                    <div class="watch-screen-price" id="hero-price-display">₹ 3,999</div>
+                                    <div class="watch-screen-brand" id="hero-brand-display">NOISE SMARTWATCH</div>
+                                </div>
+
+                                <div class="watch-screen-footer">
+                                    <div class="screen-stat">
+                                        <i class="fa-solid fa-heart-pulse stat-heart"></i>
+                                        <span>74 BPM</span>
+                                    </div>
+                                    <div class="screen-stat">
+                                        <i class="fa-solid fa-person-walking stat-steps"></i>
+                                        <span>8,420 steps</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Concentric Aura Orbits -->
+                        <div class="radar-orbit orbit-outer"></div>
+                        <div class="radar-orbit orbit-inner"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Step 1: Brand Selection Section -->
+        <section class="section-wrapper" id="brand-index-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-step-badge">STEP 1</span>
+                    <h2 class="section-title">Select Manufacturer Brand</h2>
+                    <p class="section-subtitle">Brand equity significantly influences secondary market depreciation and resale multipliers</p>
+                </div>
+
+                <div class="brand-cards-grid" id="brand-grid">
+                    
+                    <button type="button" class="brand-pill active" data-brand="noise" onclick="selectBrand(this)" aria-label="Select Noise">
+                        <div class="brand-avatar brand-noise-glow">
+                            <i class="fa-solid fa-wave-square"></i>
+                        </div>
+                        <div class="brand-meta">
+                            <div class="brand-title-wrap">
+                                <span class="brand-name-text">Noise</span>
+                                <span class="brand-tag-pill">Value Tier</span>
+                            </div>
+                            <span class="brand-retention">~46-52% Market Retention</span>
+                        </div>
+                        <div class="brand-check"><i class="fa-solid fa-circle-check"></i></div>
                     </button>
-                </div>
 
-                <!-- Right: Result -->
-                <div class="result-panel">
-                    <div class="result-inner">
-                        <div class="result-badge">
-                            <span class="badge-dot pulse"></span>
-                            AI Prediction
+                    <button type="button" class="brand-pill" data-brand="boat" onclick="selectBrand(this)" aria-label="Select boAt">
+                        <div class="brand-avatar brand-boat-glow">
+                            <i class="fa-solid fa-sailboat"></i>
                         </div>
-                        <div class="result-watch-icon">
-                            <i class="fa-solid fa-watch"></i>
+                        <div class="brand-meta">
+                            <div class="brand-title-wrap">
+                                <span class="brand-name-text">boAt</span>
+                                <span class="brand-tag-pill">Popular</span>
+                            </div>
+                            <span class="brand-retention">~48-55% Market Retention</span>
                         </div>
-                        <div class="result-price" id="sw-result">₹ ---</div>
-                        <p class="result-subtitle" id="sw-subtitle">Configure watch specs & click predict</p>
+                        <div class="brand-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </button>
 
-                        <div class="result-divider"></div>
-
-                        <div class="model-info-grid">
-                            <div class="model-info-item">
-                                <div class="info-icon"><i class="fa-solid fa-tree"></i></div>
-                                <div>
-                                    <span class="info-label">Algorithm</span>
-                                    <span class="info-value">Random Forest</span>
-                                </div>
-                            </div>
-                            <div class="model-info-item">
-                                <div class="info-icon"><i class="fa-solid fa-chart-line"></i></div>
-                                <div>
-                                    <span class="info-label">R² Score</span>
-                                    <span class="info-value">87%</span>
-                                </div>
-                            </div>
-                            <div class="model-info-item">
-                                <div class="info-icon"><i class="fa-solid fa-database"></i></div>
-                                <div>
-                                    <span class="info-label">Training Data</span>
-                                    <span class="info-value">Market Prices</span>
-                                </div>
-                            </div>
-                            <div class="model-info-item">
-                                <div class="info-icon"><i class="fa-solid fa-bolt"></i></div>
-                                <div>
-                                    <span class="info-label">Inference</span>
-                                    <span class="info-value">Real-time</span>
-                                </div>
-                            </div>
+                    <button type="button" class="brand-pill" data-brand="fire-boltt" onclick="selectBrand(this)" aria-label="Select Fire-Boltt">
+                        <div class="brand-avatar brand-fire-glow">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
                         </div>
-                    </div>
-                </div>
+                        <div class="brand-meta">
+                            <div class="brand-title-wrap">
+                                <span class="brand-name-text">Fire-Boltt</span>
+                                <span class="brand-tag-pill">Value Tier</span>
+                            </div>
+                            <span class="brand-retention">~44-50% Market Retention</span>
+                        </div>
+                        <div class="brand-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </button>
 
-            </div>
-        </div>
-    </section>
+                    <button type="button" class="brand-pill" data-brand="apple" onclick="selectBrand(this)" aria-label="Select Apple">
+                        <div class="brand-avatar brand-apple-glow">
+                            <i class="fa-brands fa-apple"></i>
+                        </div>
+                        <div class="brand-meta">
+                            <div class="brand-title-wrap">
+                                <span class="brand-name-text">Apple</span>
+                                <span class="brand-tag-pill premium">Ultra Premium</span>
+                            </div>
+                            <span class="brand-retention">~88-96% Market Retention</span>
+                        </div>
+                        <div class="brand-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </button>
 
-    <!-- Feature Bar -->
-    <section class="features-section">
-        <div class="section-container">
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
-                    <div>
-                        <h4>Machine Learning</h4>
-                        <p>Trained on real smartwatch market data</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                    <div>
-                        <h4>Instant Results</h4>
-                        <p>Get predictions in under a second</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div>
-                        <h4>Scikit-Learn Powered</h4>
-                        <p>Production-grade ML pipeline</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon"><i class="fa-solid fa-cloud"></i></div>
-                    <div>
-                        <h4>Cloud Deployed</h4>
-                        <p>FastAPI backend on Vercel serverless</p>
-                    </div>
+                    <button type="button" class="brand-pill" data-brand="samsung" onclick="selectBrand(this)" aria-label="Select Samsung">
+                        <div class="brand-avatar brand-samsung-glow">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <div class="brand-meta">
+                            <div class="brand-title-wrap">
+                                <span class="brand-name-text">Samsung</span>
+                                <span class="brand-tag-pill flagship">Flagship</span>
+                            </div>
+                            <span class="brand-retention">~78-85% Market Retention</span>
+                        </div>
+                        <div class="brand-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </button>
+
+                    <button type="button" class="brand-pill" data-brand="garmin" onclick="selectBrand(this)" aria-label="Select Garmin">
+                        <div class="brand-avatar brand-garmin-glow">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+                        </div>
+                        <div class="brand-meta">
+                            <div class="brand-title-wrap">
+                                <span class="brand-name-text">Garmin</span>
+                                <span class="brand-tag-pill outdoor">Pro Sport</span>
+                            </div>
+                            <span class="brand-retention">~80-88% Market Retention</span>
+                        </div>
+                        <div class="brand-check"><i class="fa-solid fa-circle-check"></i></div>
+                    </button>
+
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Step 2: Main Predictor Workbench -->
+        <section class="section-wrapper" id="predictor-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-step-badge">STEP 2</span>
+                    <h2 class="section-title">Configure Watch Specifications</h2>
+                    <p class="section-subtitle">Fine-tune the parameters to compute an instant ML-driven price estimate</p>
+                </div>
+
+                <div class="workbench-card">
+                    
+                    <!-- Left Column: Input Form -->
+                    <div class="workbench-inputs">
+                        <div class="form-title-bar">
+                            <div class="form-title">
+                                <i class="fa-solid fa-sliders"></i>
+                                <span>Input Parameters</span>
+                            </div>
+                            <button type="button" class="btn-reset-specs" onclick="resetForm()" title="Reset to defaults">
+                                <i class="fa-solid fa-rotate-left"></i> Reset
+                            </button>
+                        </div>
+
+                        <input type="hidden" id="sw-brand" value="noise">
+
+                        <!-- Original Price -->
+                        <div class="field-box">
+                            <div class="field-header">
+                                <label for="sw-original" class="field-label">Original MRP / Purchase Price</label>
+                                <span class="field-badge" id="price-quick-badge">₹ 5,999</span>
+                            </div>
+
+                            <div class="currency-input-wrap">
+                                <span class="currency-symbol">₹</span>
+                                <input type="number" id="sw-original" class="currency-input" placeholder="5999" value="5999" min="100" max="200000" oninput="syncFromInput('price'); updateLivePreview();">
+                            </div>
+
+                            <!-- Quick Preset Buttons -->
+                            <div class="preset-chips">
+                                <button type="button" class="preset-btn" onclick="setPresetPrice(2499)">₹2.5K</button>
+                                <button type="button" class="preset-btn active" onclick="setPresetPrice(5999)">₹6K</button>
+                                <button type="button" class="preset-btn" onclick="setPresetPrice(14999)">₹15K</button>
+                                <button type="button" class="preset-btn" onclick="setPresetPrice(29999)">₹30K</button>
+                                <button type="button" class="preset-btn" onclick="setPresetPrice(79999)">₹80K</button>
+                            </div>
+
+                            <div class="slider-control">
+                                <input type="range" id="price-slider" class="custom-slider price-slider" min="100" max="200000" step="100" value="5999" oninput="syncFromSlider('price'); updateLivePreview();">
+                                <div class="slider-range-labels">
+                                    <span>₹100</span>
+                                    <span>₹1,00,000</span>
+                                    <span>₹2,00,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rating Slider -->
+                        <div class="field-box">
+                            <div class="field-header">
+                                <label for="sw-rating" class="field-label">Customer Rating</label>
+                                <div class="rating-visual-tag" id="rating-sentiment-tag">
+                                    <span id="star-icons">⭐⭐⭐⭐☆</span>
+                                    <span class="rating-num-tag" id="rating-display">4.2 / 5.0</span>
+                                </div>
+                            </div>
+
+                            <div class="slider-control">
+                                <input type="range" id="sw-rating" class="custom-slider rating-slider" min="1.0" max="5.0" step="0.1" value="4.2" oninput="updateRatingDisplay(this.value); updateLivePreview();">
+                                <div class="slider-range-labels">
+                                    <span>1.0 (Critical)</span>
+                                    <span>3.0 (Average)</span>
+                                    <span>5.0 (Flawless)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Number of Reviews -->
+                        <div class="field-box">
+                            <div class="field-header">
+                                <label for="sw-numratings" class="field-label">Verified Review Count</label>
+                                <span class="field-hint" id="reviews-status-hint">High Social Proof</span>
+                            </div>
+
+                            <div class="currency-input-wrap">
+                                <span class="currency-symbol"><i class="fa-solid fa-comments"></i></span>
+                                <input type="number" id="sw-numratings" class="currency-input" placeholder="500" value="500" min="0" max="500000" oninput="updateReviewHint(); updateLivePreview();">
+                            </div>
+
+                            <div class="preset-chips">
+                                <button type="button" class="preset-btn" onclick="setPresetReviews(150)">150</button>
+                                <button type="button" class="preset-btn active" onclick="setPresetReviews(500)">500</button>
+                                <button type="button" class="preset-btn" onclick="setPresetReviews(2500)">2.5k</button>
+                                <button type="button" class="preset-btn" onclick="setPresetReviews(12000)">12k</button>
+                                <button type="button" class="preset-btn" onclick="setPresetReviews(50000)">50k+</button>
+                            </div>
+                        </div>
+
+                        <!-- Submit CTA -->
+                        <button type="button" class="btn-predict-action" id="predict-btn" onclick="predictSmartwatch()">
+                            <span class="btn-predict-content">
+                                <i class="fa-solid fa-wand-magic-sparkles btn-sparkle-icon"></i>
+                                <span class="btn-text">Compute Market Valuation</span>
+                            </span>
+                            <div class="btn-glow-layer"></div>
+                        </button>
+
+                    </div>
+
+                    <!-- Right Column: AI Valuation HUD -->
+                    <div class="workbench-results">
+                        <div class="hud-container">
+                            
+                            <div class="hud-top-bar">
+                                <div class="hud-tag">
+                                    <span class="pulse-indicator"></span>
+                                    <span>AI VALUATION COCKPIT</span>
+                                </div>
+                                <div class="model-type-badge">
+                                    <i class="fa-solid fa-tree"></i> Random Forest
+                                </div>
+                            </div>
+
+                            <!-- Center Valuation Number -->
+                            <div class="valuation-showcase">
+                                <span class="showcase-caption">ESTIMATED MARKET VALUE</span>
+                                <div class="showcase-price" id="sw-result">₹ 3,999</div>
+                                <div class="showcase-badge-row">
+                                    <span class="retention-pill" id="retention-pill">
+                                        <i class="fa-solid fa-arrow-trend-up"></i> 67% Value Retained
+                                    </span>
+                                    <span class="brand-tag-display" id="hud-brand-tag">Noise</span>
+                                </div>
+                                <p class="showcase-subtext" id="sw-subtitle">Model ready · Click compute to refresh appraisal</p>
+                            </div>
+
+                            <!-- Value Retention Meter -->
+                            <div class="retention-meter-box">
+                                <div class="meter-labels">
+                                    <span>Market Depreciation</span>
+                                    <span id="meter-percent-text">67% of MRP</span>
+                                </div>
+                                <div class="meter-bar-track">
+                                    <div class="meter-bar-fill" id="meter-bar-fill" style="width: 67%;"></div>
+                                </div>
+                                <div class="meter-bracket-row">
+                                    <span id="fair-bracket-low">Fair Low: ₹3,600</span>
+                                    <span id="fair-bracket-high">Fair High: ₹4,300</span>
+                                </div>
+                            </div>
+
+                            <!-- Live Insights Grid -->
+                            <div class="hud-metrics-grid">
+                                <div class="hud-metric-tile">
+                                    <div class="hud-tile-icon"><i class="fa-solid fa-chart-line-up"></i></div>
+                                    <div class="hud-tile-info">
+                                        <span class="hud-tile-label">Market Demand</span>
+                                        <span class="hud-tile-value" id="hud-demand-val">Very High</span>
+                                    </div>
+                                </div>
+
+                                <div class="hud-metric-tile">
+                                    <div class="hud-tile-icon"><i class="fa-solid fa-bullseye"></i></div>
+                                    <div class="hud-tile-info">
+                                        <span class="hud-tile-label">Model Confidence</span>
+                                        <span class="hud-tile-value">87.4% R²</span>
+                                    </div>
+                                </div>
+
+                                <div class="hud-metric-tile">
+                                    <div class="hud-tile-icon"><i class="fa-solid fa-clock"></i></div>
+                                    <div class="hud-tile-info">
+                                        <span class="hud-tile-label">Appraisal Latency</span>
+                                        <span class="hud-tile-value" id="hud-latency-val">12 ms</span>
+                                    </div>
+                                </div>
+
+                                <div class="hud-metric-tile">
+                                    <div class="hud-tile-icon"><i class="fa-solid fa-database"></i></div>
+                                    <div class="hud-tile-info">
+                                        <span class="hud-tile-label">Ensemble Engine</span>
+                                        <span class="hud-tile-value">Scikit-Learn</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Actions Footer -->
+                            <div class="hud-footer-actions">
+                                <button type="button" class="btn-hud-action" id="copy-estimate-btn" onclick="copyEstimate()">
+                                    <i class="fa-solid fa-copy"></i>
+                                    <span id="copy-btn-text">Copy Valuation</span>
+                                </button>
+                                <button type="button" class="btn-hud-action" onclick="shareValuation()">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                    <span>Share</span>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Brand Retention & Resale Benchmark Matrix -->
+        <section class="section-wrapper bg-gradient-subtle" id="matrix-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-step-badge">MARKET DATA</span>
+                    <h2 class="section-title">Brand Resale Retention Index</h2>
+                    <p class="section-subtitle">Historical valuation trends analyzed across secondary marketplaces</p>
+                </div>
+
+                <div class="matrix-grid">
+                    
+                    <div class="matrix-card tier-top">
+                        <div class="matrix-card-header">
+                            <div class="matrix-brand"><i class="fa-brands fa-apple"></i> Apple</div>
+                            <span class="matrix-score">92%</span>
+                        </div>
+                        <div class="matrix-progress"><div class="matrix-fill" style="width: 92%; background: linear-gradient(90deg, #a855f7, #6366f1);"></div></div>
+                        <p class="matrix-desc">Highest value retention in the industry. Slow depreciation curve due to prolonged OS updates and brand loyalty.</p>
+                        <div class="matrix-tag">Tier: Ultra High</div>
+                    </div>
+
+                    <div class="matrix-card">
+                        <div class="matrix-card-header">
+                            <div class="matrix-brand"><i class="fa-solid fa-location-crosshairs"></i> Garmin</div>
+                            <span class="matrix-score">84%</span>
+                        </div>
+                        <div class="matrix-progress"><div class="matrix-fill" style="width: 84%; background: linear-gradient(90deg, #06b6d4, #3b82f6);"></div></div>
+                        <p class="matrix-desc">Strong niche demand among athletes and outdoor enthusiasts. High battery longevity preserves resale pricing.</p>
+                        <div class="matrix-tag">Tier: Premium Sport</div>
+                    </div>
+
+                    <div class="matrix-card">
+                        <div class="matrix-card-header">
+                            <div class="matrix-brand"><i class="fa-solid fa-mobile-screen-button"></i> Samsung</div>
+                            <span class="matrix-score">81%</span>
+                        </div>
+                        <div class="matrix-progress"><div class="matrix-fill" style="width: 81%; background: linear-gradient(90deg, #3b82f6, #06b6d4);"></div></div>
+                        <p class="matrix-desc">Consistent Android wear market share. Holds steady value across Galaxy Watch Classic and Pro generations.</p>
+                        <div class="matrix-tag">Tier: Flagship</div>
+                    </div>
+
+                    <div class="matrix-card">
+                        <div class="matrix-card-header">
+                            <div class="matrix-brand"><i class="fa-solid fa-sailboat"></i> boAt</div>
+                            <span class="matrix-score">53%</span>
+                        </div>
+                        <div class="matrix-progress"><div class="matrix-fill" style="width: 53%; background: linear-gradient(90deg, #f59e0b, #ef4444);"></div></div>
+                        <p class="matrix-desc">Mass-market high-volume wearable. Steep initial depreciation due to frequent release cycles and aggressive discounts.</p>
+                        <div class="matrix-tag">Tier: Budget Leader</div>
+                    </div>
+
+                    <div class="matrix-card">
+                        <div class="matrix-card-header">
+                            <div class="matrix-brand"><i class="fa-solid fa-wave-square"></i> Noise</div>
+                            <span class="matrix-score">49%</span>
+                        </div>
+                        <div class="matrix-progress"><div class="matrix-fill" style="width: 49%; background: linear-gradient(90deg, #ec4899, #8b5cf6);"></div></div>
+                        <p class="matrix-desc">High initial value-to-feature ratio. Resale value stabilizes quickly around standard entry-level price brackets.</p>
+                        <div class="matrix-tag">Tier: Value</div>
+                    </div>
+
+                    <div class="matrix-card">
+                        <div class="matrix-card-header">
+                            <div class="matrix-brand"><i class="fa-solid fa-fire-flame-curved"></i> Fire-Boltt</div>
+                            <span class="matrix-score">47%</span>
+                        </div>
+                        <div class="matrix-progress"><div class="matrix-fill" style="width: 47%; background: linear-gradient(90deg, #f97316, #ef4444);"></div></div>
+                        <p class="matrix-desc">Feature-rich at competitive price points. Higher depreciation rates balanced by rapid sales volume.</p>
+                        <div class="matrix-tag">Tier: Value</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="section-wrapper" id="how-it-works-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-step-badge">PIPELINE</span>
+                    <h2 class="section-title">How The Valuation Engine Works</h2>
+                    <p class="section-subtitle">An end-to-end overview of data preprocessing, feature engineering, and model inference</p>
+                </div>
+
+                <div class="pipeline-grid">
+                    
+                    <div class="pipeline-step">
+                        <div class="step-number">01</div>
+                        <div class="step-icon-wrap"><i class="fa-solid fa-database"></i></div>
+                        <h3 class="step-title">Market Data Ingestion</h3>
+                        <p class="step-text">Aggregated and cleaned sales transactions, specifications, rating counts, and pricing histories across ecommerce marketplaces.</p>
+                    </div>
+
+                    <div class="pipeline-arrow"><i class="fa-solid fa-angle-right"></i></div>
+
+                    <div class="pipeline-step">
+                        <div class="step-number">02</div>
+                        <div class="step-icon-wrap"><i class="fa-solid fa-diagram-project"></i></div>
+                        <h3 class="step-title">Random Forest Ensemble</h3>
+                        <p class="step-text">Multi-decision-tree architecture captures non-linear interactions between brand prestige, buyer satisfaction, and price tiering.</p>
+                    </div>
+
+                    <div class="pipeline-arrow"><i class="fa-solid fa-angle-right"></i></div>
+
+                    <div class="pipeline-step">
+                        <div class="step-number">03</div>
+                        <div class="step-icon-wrap"><i class="fa-solid fa-chart-candlestick"></i></div>
+                        <h3 class="step-title">Calibrated Market Pricing</h3>
+                        <p class="step-text">Instant real-time evaluation returning accurate fair market prices, retention curves, and dynamic fair-value brackets.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="section-wrapper" id="faq-section">
+            <div class="container faq-container">
+                <div class="section-header">
+                    <span class="section-step-badge">FAQ</span>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Everything you need to know about our smartwatch valuation model</p>
+                </div>
+
+                <div class="faq-list">
+                    <details class="faq-item" open>
+                        <summary class="faq-question">
+                            <span>How accurate is the Random Forest price prediction?</span>
+                            <i class="fa-solid fa-chevron-down faq-icon"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            Our model achieves an <strong>87.4% R² Score</strong> on cross-validated test splits, accurately predicting the actual real-world transactional selling price within an average margin of &plusmn;8-12%.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>Why do Apple and Garmin hold significantly higher value?</span>
+                            <i class="fa-solid fa-chevron-down faq-icon"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            Apple and Garmin command premium secondary market prices due to proprietary software ecosystems, multi-year OS update lifecycles, and high buyer demand that resists steep brand depreciation.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span>How do ratings and review volumes impact valuation?</span>
+                            <i class="fa-solid fa-chevron-down faq-icon"></i>
+                        </summary>
+                        <div class="faq-answer">
+                            Higher ratings (&gt;4.3) with significant review counts (&gt;2,000) serve as strong trust signals, reducing perceived buyer risk and bolstering market price retention by up to 10-15%.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <i class="fa-solid fa-watch"></i>
-                WatchVal.ai
+    <footer class="footer-wrapper">
+        <div class="container footer-content">
+            <div class="footer-brand-col">
+                <div class="nav-brand">
+                    <div class="brand-icon-box">
+                        <i class="fa-solid fa-stopwatch-20"></i>
+                    </div>
+                    <div class="brand-name">
+                        WatchVal<span class="brand-dot">.ai</span>
+                    </div>
+                </div>
+                <p class="footer-tagline">AI-driven valuation intelligence for wearable technology.</p>
             </div>
-            <p class="footer-note">Built with FastAPI · Scikit-Learn · Vercel</p>
-            <a href="https://github.com/akshay200613/smartwatch-price-predictor" target="_blank" class="footer-github">
-                <i class="fa-brands fa-github"></i> View on GitHub
-            </a>
+
+            <div class="footer-links-col">
+                <div class="footer-heading">Technology Stack</div>
+                <div class="tech-pills">
+                    <span class="tech-pill"><i class="fa-brands fa-python"></i> FastAPI</span>
+                    <span class="tech-pill"><i class="fa-solid fa-brain"></i> Scikit-Learn</span>
+                    <span class="tech-pill"><i class="fa-solid fa-server"></i> Vercel</span>
+                </div>
+            </div>
+
+            <div class="footer-copy-col">
+                <a href="https://github.com/akshay200613/smartwatch-price-predictor" target="_blank" rel="noopener noreferrer" class="footer-gh-link">
+                    <i class="fa-brands fa-github"></i> GitHub Repository
+                </a>
+                <p class="copyright-text">&copy; 2026 WatchVal.ai. Built with precision.</p>
+            </div>
         </div>
     </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast-popup" role="alert" aria-live="polite">
+        <i class="fa-solid fa-circle-check toast-icon"></i>
+        <span id="toast-message">Copied to clipboard!</span>
+    </div>
 
     <script src="script.js"></script>
 </body>

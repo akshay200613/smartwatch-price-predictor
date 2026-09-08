@@ -19,7 +19,20 @@ app.add_middleware(
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, 'models', 'model.pkl')
-FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
+
+def find_frontend_dir():
+    candidates = [
+        os.path.join(BASE_DIR, 'frontend'),
+        os.path.join(os.getcwd(), 'frontend'),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'frontend'),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend'),
+    ]
+    for p in candidates:
+        if os.path.isdir(p):
+            return p
+    return os.path.join(BASE_DIR, 'frontend')
+
+FRONTEND_DIR = find_frontend_dir()
 
 model = None
 
