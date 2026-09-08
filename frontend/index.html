@@ -3,69 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartwatch Price Prediction</title>
+    <title>Smartwatch Price Predictor | AI-Powered Valuation</title>
+    <meta name="description" content="Estimate the market value of any smartwatch in seconds using our AI-powered Random Forest regression model trained on real market data.">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="background-effects">
-        <div class="glow glow-1"></div>
-        <div class="glow glow-2"></div>
+
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <canvas id="particles-canvas"></canvas>
     </div>
 
-    <header class="glass-nav">
-        <div class="logo">
-            <i class="fa-solid fa-watch"></i> Smartwatch Analytics
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <div class="nav-brand">
+                <div class="brand-icon"><i class="fa-solid fa-watch"></i></div>
+                <span class="brand-text">WatchVal<span class="brand-accent">.ai</span></span>
+            </div>
+            <div class="nav-badge">
+                <span class="badge-dot"></span>
+                ML Model Live
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
-        <section class="hero">
-            <h1>Price Prediction Model</h1>
-            <p>Estimate the market value of smartwatches based on specifications and brand power.</p>
-        </section>
-
-        <section class="glass-card">
-            <div class="app-layout">
-                <div class="input-panel">
-                    <h3>Input Features</h3>
-                    <div class="form-group">
-                        <label for="sw-brand">Brand</label>
-                        <select id="sw-brand">
-                            <option value="noise">Noise</option>
-                            <option value="boat">boAt</option>
-                            <option value="fire-boltt">Fire-Boltt</option>
-                            <option value="apple">Apple</option>
-                            <option value="samsung">Samsung</option>
-                            <option value="garmin">Garmin</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sw-original">Original Price (₹)</label>
-                        <input type="number" id="sw-original" placeholder="e.g. 5999" value="5999">
-                    </div>
-                    <div class="form-group">
-                        <label for="sw-rating">Rating (1 to 5)</label>
-                        <input type="number" step="0.1" id="sw-rating" placeholder="e.g. 4.2" value="4.2">
-                    </div>
-                    <button class="primary-btn" onclick="predictSmartwatch()">Predict Price <i class="fa-solid fa-arrow-right"></i></button>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-pill">
+                <i class="fa-solid fa-microchip"></i>
+                Random Forest · 87% Accuracy
+            </div>
+            <h1 class="hero-title">
+                AI-Powered<br>
+                <span class="gradient-text">Smartwatch</span><br>
+                Price Predictor
+            </h1>
+            <p class="hero-subtitle">
+                Instantly estimate the real market value of any smartwatch using our machine learning model trained on thousands of real-world sales.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">6+</span>
+                    <span class="stat-label">Brands</span>
                 </div>
-                
-                <div class="result-panel">
-                    <h3>Prediction Result</h3>
-                    <div class="result-display">
-                        <div class="price-tag" id="sw-result">₹ ---</div>
-                        <p class="result-subtitle" id="sw-subtitle">Enter features to see prediction</p>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number">87%</span>
+                    <span class="stat-label">R² Score</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number">ML</span>
+                    <span class="stat-label">Powered</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="watch-preview">
+                <div class="watch-ring">
+                    <div class="watch-face">
+                        <i class="fa-solid fa-watch watch-icon"></i>
+                        <div class="watch-price-badge" id="hero-price">₹ ---</div>
                     </div>
-                    <div class="model-metrics">
-                        <div class="metric"><span class="label">Model</span><span class="value">Random Forest Regressor</span></div>
-                        <div class="metric"><span class="label">Accuracy</span><span class="value">87% R²</span></div>
+                </div>
+                <div class="ring-orbit orbit-1"></div>
+                <div class="ring-orbit orbit-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Selector -->
+    <section class="brands-section">
+        <div class="section-container">
+            <p class="section-label">Select Your Brand</p>
+            <div class="brand-grid" id="brand-grid">
+                <div class="brand-card active" data-brand="noise" onclick="selectBrand(this)">
+                    <div class="brand-icon-wrap"><i class="fa-solid fa-music"></i></div>
+                    <span>Noise</span>
+                </div>
+                <div class="brand-card" data-brand="boat" onclick="selectBrand(this)">
+                    <div class="brand-icon-wrap"><i class="fa-solid fa-sailboat"></i></div>
+                    <span>boAt</span>
+                </div>
+                <div class="brand-card" data-brand="fire-boltt" onclick="selectBrand(this)">
+                    <div class="brand-icon-wrap"><i class="fa-solid fa-fire"></i></div>
+                    <span>Fire-Boltt</span>
+                </div>
+                <div class="brand-card" data-brand="apple" onclick="selectBrand(this)">
+                    <div class="brand-icon-wrap"><i class="fa-brands fa-apple"></i></div>
+                    <span>Apple</span>
+                </div>
+                <div class="brand-card" data-brand="samsung" onclick="selectBrand(this)">
+                    <div class="brand-icon-wrap"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <span>Samsung</span>
+                </div>
+                <div class="brand-card" data-brand="garmin" onclick="selectBrand(this)">
+                    <div class="brand-icon-wrap"><i class="fa-solid fa-location-dot"></i></div>
+                    <span>Garmin</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Predictor Card -->
+    <section class="predictor-section">
+        <div class="section-container">
+            <div class="predictor-card">
+
+                <!-- Left: Inputs -->
+                <div class="inputs-panel">
+                    <div class="panel-header">
+                        <h2>Configure Watch</h2>
+                        <p>Set the specifications to get an accurate price estimate</p>
+                    </div>
+
+                    <input type="hidden" id="sw-brand" value="noise">
+
+                    <div class="input-group">
+                        <label>Original Price (₹)</label>
+                        <div class="input-wrap">
+                            <span class="input-prefix">₹</span>
+                            <input type="number" id="sw-original" placeholder="e.g. 5999" value="5999" min="100" max="200000" oninput="updateLivePreview()">
+                        </div>
+                        <div class="price-slider-labels">
+                            <span>₹100</span><span>₹2,00,000</span>
+                        </div>
+                        <input type="range" id="price-slider" class="range-slider" min="100" max="200000" value="5999" oninput="syncSlider('price')">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Customer Rating <span class="rating-display" id="rating-display">4.2 ⭐</span></label>
+                        <input type="range" id="sw-rating" class="range-slider rating-range" min="1" max="5" step="0.1" value="4.2" oninput="updateRating(this.value); updateLivePreview()">
+                        <div class="rating-labels">
+                            <span>Poor (1)</span>
+                            <span>Excellent (5)</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Number of Reviews</label>
+                        <div class="input-wrap">
+                            <span class="input-prefix"><i class="fa-solid fa-comment"></i></span>
+                            <input type="number" id="sw-numratings" placeholder="e.g. 500" value="500" min="0" oninput="updateLivePreview()">
+                        </div>
+                    </div>
+
+                    <button class="predict-btn" id="predict-btn" onclick="predictSmartwatch()">
+                        <span class="btn-text">Predict Market Value</span>
+                        <span class="btn-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                        <div class="btn-shimmer"></div>
+                    </button>
+                </div>
+
+                <!-- Right: Result -->
+                <div class="result-panel">
+                    <div class="result-inner">
+                        <div class="result-badge">
+                            <span class="badge-dot pulse"></span>
+                            AI Prediction
+                        </div>
+                        <div class="result-watch-icon">
+                            <i class="fa-solid fa-watch"></i>
+                        </div>
+                        <div class="result-price" id="sw-result">₹ ---</div>
+                        <p class="result-subtitle" id="sw-subtitle">Configure watch specs & click predict</p>
+
+                        <div class="result-divider"></div>
+
+                        <div class="model-info-grid">
+                            <div class="model-info-item">
+                                <div class="info-icon"><i class="fa-solid fa-tree"></i></div>
+                                <div>
+                                    <span class="info-label">Algorithm</span>
+                                    <span class="info-value">Random Forest</span>
+                                </div>
+                            </div>
+                            <div class="model-info-item">
+                                <div class="info-icon"><i class="fa-solid fa-chart-line"></i></div>
+                                <div>
+                                    <span class="info-label">R² Score</span>
+                                    <span class="info-value">87%</span>
+                                </div>
+                            </div>
+                            <div class="model-info-item">
+                                <div class="info-icon"><i class="fa-solid fa-database"></i></div>
+                                <div>
+                                    <span class="info-label">Training Data</span>
+                                    <span class="info-value">Market Prices</span>
+                                </div>
+                            </div>
+                            <div class="model-info-item">
+                                <div class="info-icon"><i class="fa-solid fa-bolt"></i></div>
+                                <div>
+                                    <span class="info-label">Inference</span>
+                                    <span class="info-value">Real-time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Bar -->
+    <section class="features-section">
+        <div class="section-container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div>
+                        <h4>Machine Learning</h4>
+                        <p>Trained on real smartwatch market data</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div>
+                        <h4>Instant Results</h4>
+                        <p>Get predictions in under a second</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                        <h4>Scikit-Learn Powered</h4>
+                        <p>Production-grade ML pipeline</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-cloud"></i></div>
+                    <div>
+                        <h4>Cloud Deployed</h4>
+                        <p>FastAPI backend on Vercel serverless</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <i class="fa-solid fa-watch"></i>
+                WatchVal.ai
+            </div>
+            <p class="footer-note">Built with FastAPI · Scikit-Learn · Vercel</p>
+            <a href="https://github.com/akshay200613/smartwatch-price-predictor" target="_blank" class="footer-github">
+                <i class="fa-brands fa-github"></i> View on GitHub
+            </a>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
