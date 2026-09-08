@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import joblib
@@ -47,9 +46,10 @@ def health_check():
     m = get_model()
     return {"status": "ok", "model_loaded": m is not None}
 
-# Prediction routes (supports both /predict and /api/predict)
+# Prediction routes
 @app.post("/predict")
 @app.post("/api/predict")
+@app.post("/api/index.py/predict")
 def predict_smartwatch(features: SmartwatchFeatures):
     m = get_model()
     if not m:
@@ -70,6 +70,7 @@ def predict_smartwatch(features: SmartwatchFeatures):
 
 # Frontend Static File Serving
 @app.get("/")
+@app.get("/api/index.py")
 def serve_index():
     index_file = os.path.join(FRONTEND_DIR, 'index.html')
     if os.path.exists(index_file):
@@ -77,6 +78,7 @@ def serve_index():
     return {"message": "Smartwatch Price Predictor API is running"}
 
 @app.get("/styles.css")
+@app.get("/frontend/styles.css")
 def serve_css():
     css_file = os.path.join(FRONTEND_DIR, 'styles.css')
     if os.path.exists(css_file):
@@ -84,6 +86,7 @@ def serve_css():
     raise HTTPException(status_code=404, detail="styles.css not found")
 
 @app.get("/script.js")
+@app.get("/frontend/script.js")
 def serve_js():
     js_file = os.path.join(FRONTEND_DIR, 'script.js')
     if os.path.exists(js_file):
