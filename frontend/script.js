@@ -119,7 +119,7 @@ async function predictSmartwatch() {
     btn.disabled = true;
     btn.querySelector('.btn-text').textContent = 'Predicting...';
     resultEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-    resultEl.style.color = '#94a3b8';
+    resultEl.style.cssText = 'color: #9095b8; -webkit-text-fill-color: #9095b8;';
     resultEl.classList.remove('animating');
     subtitleEl.textContent = 'Analyzing market data...';
     document.getElementById('hero-price').textContent = '...';
@@ -164,7 +164,7 @@ function displayPrice(price, fromModel) {
     const formatted = `₹ ${price.toLocaleString('en-IN')}`;
 
     resultEl.textContent = formatted;
-    resultEl.style.color = '#10b981';
+    resultEl.style.cssText = '';
     resultEl.classList.add('animating');
     heroPrice.textContent = formatted;
 
